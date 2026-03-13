@@ -1,0 +1,9 @@
+tensorflow>=2.0.0
+keras
+Flask
+Pillow
+Werkzeug
+numpy
+matplotlib
+scipy
+gunicorn

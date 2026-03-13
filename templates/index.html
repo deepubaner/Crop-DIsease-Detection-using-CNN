@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crop Scan - Digital Agriculture Solutions</title>
+    <!-- Modern font -> Outfit -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+
+<body>
+    <!-- Language Selection Buttons -->
+    <div class="language-switcher">
+        <button class="lang-btn" onclick="translatePage('hi')" title="Translate to Hindi">
+            <span class="lang-icon">अ</span> <span class="lang-text">Hindi</span>
+        </button>
+        <button class="lang-btn" onclick="translatePage('pa')" title="Translate to Punjabi">
+            <span class="lang-icon">ੳ</span> <span class="lang-text">Punjabi</span>
+        </button>
+        <button class="lang-btn" onclick="resetTranslate()" title="Reset to English">
+            <span class="lang-icon">A</span> <span class="lang-text">English</span>
+        </button>
+    </div>
+
+    <!-- Hidden Google Translate Widget -->
+    <div id="google_translate_element" style="display: none;"></div>
+
+    <!-- Animated background elements -->
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+
+    <div class="app-container">
+        <!-- Header Section -->
+        <header class="header">
+            <div class="logo">
+                <img src="{{ url_for('static', filename='logo.png') }}" alt="Crop Scan Logo" class="project-logo">
+                <h1>Crop Scan</h1>
+            </div>
+            <p>Upload a plant leaf image for an instant, deep-learning powered diagnosis.</p>
+        </header>
+
+        <main class="main-content glass-panel">
+            <!-- Upload Section -->
+            <div class="upload-area">
+                <div class="drop-zone" id="drop-zone">
+                    <div class="drop-icon-wrapper">
+                        <svg class="drop-icon" width="48" height="48" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="17 8 12 3 7 8"></polyline>
+                            <line x1="12" y1="3" x2="12" y2="15"></line>
+                        </svg>
+                    </div>
+                    <span class="drop-title">Drag & Drop Image Here</span>
+                    <span class="drop-desc">or click to browse your local files</span>
+                    <input type="file" id="file-input" accept="image/jpeg, image/png, image/jpg" hidden>
+                </div>
+
+                <!-- Image Preview Section -->
+                <div class="preview-section" id="preview-section" style="display: none;">
+                    <div class="preview-image-wrapper">
+                        <img id="image-preview" src="" alt="Image Preview">
+                        <div class="scanner-line"></div>
+                    </div>
+                    <div class="action-buttons">
+                        <button class="btn btn-primary" id="analyze-btn">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="11" cy="11" r="8"></circle>
+                                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                            </svg>
+                            Analyze Leaf
+                        </button>
+                        <button class="btn btn-secondary" id="reset-btn">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="1 4 1 10 7 10"></polyline>
+                                <polyline points="23 20 23 14 17 14"></polyline>
+                                <path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 0 1 3.51 15"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Loading Spinner -->
+            <div class="loading-overlay" id="loading-overlay" style="display: none;">
+                <div class="pulse-ring"></div>
+                <div class="pulse-ring delay"></div>
+                <p>Running Neural Network Analysis...</p>
+            </div>
+
+            <!-- Results Section -->
+            <div class="result-area" id="result-card" style="display: none;">
+                <div class="result-header">
+                    <h2>Diagnosis Result</h2>
+                    <span class="confidence-badge" id="res-confidence">99.9% Match</span>
+                </div>
+
+                <div class="result-grid">
+                    <div class="result-item">
+                        <div class="result-icon plant-icon"><i data-lucide="leaf"></i></div>
+                        <div class="result-text">
+                            <span class="result-label">Identified Plant</span>
+                            <span class="result-value" id="res-plant">-</span>
+                        </div>
+                    </div>
+                    <div class="result-item">
+                        <div class="result-icon disease-icon" id="disease-icon-wrap"><i data-lucide="bug"></i></div>
+                        <div class="result-text">
+                            <span class="result-label">Health Status</span>
+                            <span class="result-value target-disease" id="res-disease">-</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="solution-box glass-panel-inner">
+                    <h3>Agronomic Treatment & Solution</h3>
+                    <p id="res-solution">Upload an image to get a specific actionable treatment plan.</p>
+                </div>
+
+                <button class="btn btn-secondary full-width mt-4" id="new-scan-btn">Start New Scan</button>
+            </div>
+
+            <!-- Error Banner -->
+            <div class="error-banner" id="error-banner" style="display: none;">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="12" y1="8" x2="12" y2="12"></line>
+                    <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                </svg>
+                <p id="error-message">Something went wrong.</p>
+            </div>
+        </main>
+    </div> <!-- Close app-container -->
+
+    <!-- Supported Crops Section -->
+    <section class="section container crops-section">
+        <div class="section-header">
+            <h2>Supported Crops</h2>
+            <p>Our model can detect diseases across a wide variety of plants.</p>
+        </div>
+        <div class="crops-grid">
+            <div class="crop-card">
+                <div class="crop-icon"><i data-lucide="wheat"></i></div><span>Wheat</span>
+            </div>
+            <div class="crop-card">
+                <div class="crop-icon"><i data-lucide="apple"></i></div><span>Tomato</span>
+            </div>
+            <div class="crop-card">
+                <div class="crop-icon"><i data-lucide="bean"></i></div><span>Potato</span>
+            </div>
+            <div class="crop-card">
+                <div class="crop-icon"><i data-lucide="carrot"></i></div><span>Corn</span>
+            </div>
+            <div class="crop-card">
+                <div class="crop-icon"><i data-lucide="flame"></i></div><span>Chilli</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="section container works-section">
+        <div class="section-header">
+            <h2>How It Works</h2>
+            <p>A simple 4-step process for instant diagnosis and treatment.</p>
+        </div>
+        <div class="steps-grid">
+            <div class="step-card">
+                <div class="step-num">1</div>
+                <div class="step-icon"><i data-lucide="camera"></i></div>
+                <h4>Upload Image</h4>
+                <p>Snap a photo of the affected plant leaf.</p>
+            </div>
+            <div class="step-card">
+                <div class="step-num">2</div>
+                <div class="step-icon"><i data-lucide="brain"></i></div>
+                <h4>AI Analysis</h4>
+                <p>Our deep learning CNN processes the visual data.</p>
+            </div>
+            <div class="step-card">
+                <div class="step-num">3</div>
+                <div class="step-icon"><i data-lucide="target"></i></div>
+                <h4>Prediction</h4>
+                <p>Instantly identifies the exact disease or health status.</p>
+            </div>
+            <div class="step-card">
+                <div class="step-num">4</div>
+                <div class="step-icon"><i data-lucide="pill"></i></div>
+                <h4>Treatment</h4>
+                <p>Get actionable cures and agronomic advice.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Model Performance -->
+    <section class="section container stats-section">
+        <div class="stats-grid">
+            <div class="stat-card glass-panel-inner">
+                <div class="stat-value">96%</div>
+                <div class="stat-label">Model Accuracy</div>
+            </div>
+            <div class="stat-card glass-panel-inner">
+                <div class="stat-value">50k+</div>
+                <div class="stat-label">Images Trained</div>
+            </div>
+            <div class="stat-card glass-panel-inner">
+                <div class="stat-value">38</div>
+                <div class="stat-label">Disease Classes</div>
+            </div>
+            <div class="stat-card glass-panel-inner">
+                <div class="stat-value">10k+</div>
+                <div class="stat-label">Farmers Supported</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Example Predictions -->
+    <section class="section container examples-section">
+        <div class="section-header">
+            <h2>Example Predictions</h2>
+            <p>Real-world examples of our AI in action.</p>
+        </div>
+        <div class="examples-grid">
+            <div class="example-card glass-panel-inner">
+                <div class="example-img-placeholder tomato-bg"></div>
+                <div class="example-content">
+                    <h4>Tomato Leaf Blight</h4>
+                    <span class="conf-badge success">94% Confidence</span>
+                    <p><strong>Treatment:</strong> Apply copper-based fungicides and improve air circulation.</p>
+                </div>
+            </div>
+            <div class="example-card glass-panel-inner">
+                <div class="example-img-placeholder potato-bg"></div>
+                <div class="example-content">
+                    <h4>Potato Early Blight</h4>
+                    <span class="conf-badge success">91% Confidence</span>
+                    <p><strong>Treatment:</strong> Use chlorothalonil or mancozeb sprays; implement crop rotation.</p>
+                </div>
+            </div>
+            <div class="example-card glass-panel-inner">
+                <div class="example-img-placeholder corn-bg"></div>
+                <div class="example-content">
+                    <h4>Corn Rust</h4>
+                    <span class="conf-badge success">98% Confidence</span>
+                    <p><strong>Treatment:</strong> Apply foliar fungicides early in the season to prevent spreading.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section (Existing) -->
+    <section class="section container features-section glass-panel">
+        <div class="features-header">
+            <h2>Empowering Indian Farmers</h2>
+            <p>Advanced AI tailored for local agriculture.</p>
+        </div>
+
+        <div class="features-layout">
+            <div class="farmer-image-container no-farmer-banner">
+                <div class="banner-overlay-text">
+                    <h3>NO FARMER</h3>
+                    <h3 class="highlight">NO FOOD</h3>
+                </div>
+                <div class="image-overlay-badge">
+                    <span class="badge-icon"><i data-lucide="star"></i></span>
+                    <span>Trusted by 10,000+ Farmers</span>
+                </div>
+            </div>
+
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon"><i data-lucide="cloud-sun"></i></div>
+                    <h4>Weather Integration</h4>
+                    <p>Get real-time climate data to time your pesticide applications perfectly.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i data-lucide="sprout"></i></div>
+                    <h4>Soil Health Tracking</h4>
+                    <p>NPK and moisture recommendations based on crop diagnosis.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i data-lucide="calendar-days"></i></div>
+                    <h4>Seasonal Planner</h4>
+                    <p>Discover the best Rabi and Kharif crops to plant for optimal yield.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i data-lucide="message-circle"></i></div>
+                    <h4>Expert Connect</h4>
+                    <p>Talk directly with local Krishi Vigyan Kendra (KVK) officials.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Farmer Testimonials -->
+    <section class="section container testimonials-section">
+        <div class="section-header">
+            <h2>Farmer Testimonials</h2>
+            <p>Hear from the communities using AgroVision AI.</p>
+        </div>
+        <div class="testimonials-grid">
+            <div class="testimonial-card glass-panel-inner">
+                <div class="quote-icon">"</div>
+                <p class="quote-text">This app saved my entire wheat crop. It detected yellow rust before it spread, and
+                    the suggested treatment worked perfectly.</p>
+                <div class="author-info">
+                    <div class="author-avatar">R</div>
+                    <div>
+                        <strong>Rajesh Kumar</strong>
+                        <span>Punjab, India</span>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-card glass-panel-inner">
+                <div class="quote-icon">"</div>
+                <p class="quote-text">I used to rely on guesswork for my tomato diseases. Now with this AI, I get a 95%
+                    accurate diagnosis in seconds.</p>
+                <div class="author-info">
+                    <div class="author-avatar">M</div>
+                    <div>
+                        <strong>Mukesh Patil</strong>
+                        <span>Maharashtra, India</span>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-card glass-panel-inner">
+                <div class="quote-icon">"</div>
+                <p class="quote-text">The interface is so easy to use. I take a photo, and the app tells me exactly
+                    which medicine to buy from the store.</p>
+                <div class="author-info">
+                    <div class="author-avatar">A</div>
+                    <div>
+                        <strong>Amit Singh</strong>
+                        <span>Uttar Pradesh, India</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pesticides and Medicines -->
+    <section class="section container pesticides-section">
+        <div class="section-header">
+            <h2>Recommended Agrochemicals</h2>
+            <p>Common highly-rated treatments for recurring crop diseases.</p>
+        </div>
+        <div class="pesticides-grid">
+            <div class="pesticide-card glass-panel-inner">
+                <div class="pest-img-wrapper"><img
+                        src="https://images.unsplash.com/photo-1590682680695-43b964a3ae17?auto=format&fit=crop&q=80&w=300"
+                        alt="Mancozeb"></div>
+                <div class="pest-info">
+                    <h4>Mancozeb 75% WP</h4>
+                    <p>Broad-spectrum contact fungicide.</p>
+                </div>
+            </div>
+            <div class="pesticide-card glass-panel-inner">
+                <div class="pest-img-wrapper"><img
+                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTP2ibjSd46YPSSekp-3u35uS9PGIiBw1a-ow&s"
+                        alt="Imidacloprid"></div>
+                <div class="pest-info">
+                    <h4>Imidacloprid 17.8% SL</h4>
+                    <p>Systemic insecticide for sap-sucking pests.</p>
+                </div>
+            </div>
+            <div class="pesticide-card glass-panel-inner">
+                <div class="pest-img-wrapper"><img
+                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTX4Na5c_Cqeb5YtTZanKmKKC0_Qgi7SO4zqw&s"
+                        alt="Copper Oxychloride"></div>
+                <div class="pest-info">
+                    <h4>Copper Oxychloride</h4>
+                    <p>Effective preventive copper fungicide.</p>
+                </div>
+            </div>
+            <div class="pesticide-card glass-panel-inner">
+                <div class="pest-img-wrapper"><img
+                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRvZJ1isfWcvHZAxf5cpxRdClx8bxrSWeRfzQ&s"
+                        alt="Neem Oil"></div>
+                <div class="pest-info">
+                    <h4>Organic Neem Oil</h4>
+                    <p>Natural botanical pesticide & miticide.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+    <!-- Enhanced Footer -->
+    <footer class="site-footer">
+        <div class="footer-content container">
+            <div class="footer-brand">
+                <div class="logo footer-logo-wrap">
+                    <img src="{{ url_for('static', filename='logo.png') }}" alt="Crop Scan Logo"
+                        class="project-logo-footer">
+                    <h3>Crop Scan</h3>
+                </div>
+                <p>Empowering global agriculture with deep learning disease detection and precision agronomic solutions.
+                </p>
+            </div>
+            <div class="footer-links">
+                <h4>Project Links</h4>
+                <a href="#">GitHub Repository</a>
+                <a href="#">Model Architecture</a>
+                <a href="#">Dataset info</a>
+            </div>
+            <div class="footer-contact">
+                <h4>Contact Us</h4>
+                <a href="mailto:support@agrovision.ai">deepbner1@gmail.com</a>
+                <a href="tel:7876784076">7876784076</a>
+                <p>Landran, Punjab</p>
+            </div>
+        </div>
+        <div class="footer-bottom container">
+            <p>&copy; 2026 Cropscan. All rights reserved. Powered by Deep Learning.</p>
+        </div>
+    </footer>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <!-- Google Translate Script -->
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({
+                pageLanguage: 'en',
+                includedLanguages: 'hi,pa',
+                layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+                autoDisplay: false
+            }, 'google_translate_element');
+        }
+
+        function translatePage(lang) {
+            var teCombo = document.querySelector('.goog-te-combo');
+            if (teCombo && teCombo.querySelector('option[value="' + lang + '"]')) {
+                teCombo.value = lang;
+                teCombo.dispatchEvent(new Event('change'));
+            } else {
+                // Fallback if widget load issues occurs
+                document.cookie = "googtrans=/en/" + lang + "; path=/;";
+                window.location.reload();
+            }
+        }
+
+        function resetTranslate() {
+            document.cookie = "googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+            document.cookie = "googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; domain=" + window.location.hostname + "; path=/;";
+
+            // Try resetting through widget first for smooth transition
+            var teCombo = document.querySelector('.goog-te-combo');
+            if (teCombo) {
+                teCombo.value = '';
+                teCombo.dispatchEvent(new Event('change'));
+            }
+            // Reload page to clear fully
+            setTimeout(function () { window.location.reload(); }, 300);
+        }
+    </script>
+    <script type="text/javascript"
+        src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+
+</html>
