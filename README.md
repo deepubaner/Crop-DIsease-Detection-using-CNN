@@ -1,1 +1,0 @@
-# Crop-DIsease-Detection-using-CNN
