@@ -106,3 +106,8 @@ The custom CNN operates effectively on `256x256x3` RGB images.
 2. **Convolutional Blocks**: Successive `Conv2D` layers (32, 64, 128 filters) equipped with `ReLU` activation, each followed by `MaxPooling2D` for feature extraction and down-sampling spatial dimensions.
 3. **Flatten & Dense**: The extracted 2D feature maps are flattened and passed through a highly dense fully-connected network with `Dropout` layers to prevent overfitting.
 4. **Output Layer**: A final `.Dense` layer using `softmax` activation that outputs probability distribution corresponding to the classes available in `class_indices.json`.
+
+
+
+
+## Here You can check our Project- https://crop-disease-detection-using-cnn-2.onrender.com/
