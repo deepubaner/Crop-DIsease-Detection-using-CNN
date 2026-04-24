@@ -46,7 +46,7 @@ except Exception as e:
 
 def prepare_image(img_path):
     img = Image.open(img_path).convert("RGB").resize((224, 224))
-    img_array = np.array(img, dtype=np.float32)  # MobileNetV2 rescaling is inside the model
+    img_array = np.array(img, dtype=np.float32)  # rescaling is inside the model
     return np.expand_dims(img_array, axis=0)
 
 
