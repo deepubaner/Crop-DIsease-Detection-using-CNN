@@ -89,18 +89,28 @@ document.addEventListener('DOMContentLoaded', () => {
     newScanBtn.addEventListener('click', resetApp);
 
     // Analyze API Call
-    analyzeBtn.addEventListener('click', async () => {
+    analyzeBtn.addEventListener('click', () => runAnalysis());
+
+    async function runAnalysis(retryCount = 0) {
         if (!currentFile) return;
+
+        const MAX_RETRIES = 5;
+        const RETRY_DELAY = 5000; // 5 seconds between retries
 
         // UI State: Scanning/Loading
         analyzeBtn.disabled = true;
         resetBtn.disabled = true;
-        previewSection.classList.add('scanning'); // Start laser animation
+        previewSection.classList.add('scanning');
         setTimeout(() => {
             previewSection.style.display = 'none';
             loadingOverlay.style.display = 'block';
-        }, 1500); // let scanner run for 1.5s visually before hiding
-        
+            if (retryCount > 0) {
+                loadingOverlay.querySelector('p').textContent = `Server is waking up... retrying (${retryCount}/${MAX_RETRIES})`;
+            } else {
+                loadingOverlay.querySelector('p').textContent = 'Running Neural Network Analysis...';
+            }
+        }, retryCount === 0 ? 1500 : 0);
+
         errorBanner.style.display = 'none';
         resultCard.style.display = 'none';
 
@@ -116,12 +126,20 @@ document.addEventListener('DOMContentLoaded', () => {
             let data;
             const text = await response.text();
             if (!text || text.trim() === '') {
-                throw new Error("Server is waking up, please try again in a few seconds.");
+                if (retryCount < MAX_RETRIES) {
+                    setTimeout(() => runAnalysis(retryCount + 1), RETRY_DELAY);
+                    return;
+                }
+                throw new Error("Server is unavailable. Please try again later.");
             }
             try {
                 data = JSON.parse(text);
             } catch {
-                throw new Error("Server is starting up, please try again shortly.");
+                if (retryCount < MAX_RETRIES) {
+                    setTimeout(() => runAnalysis(retryCount + 1), RETRY_DELAY);
+                    return;
+                }
+                throw new Error("Server is unavailable. Please try again later.");
             }
 
             if (!response.ok) {
@@ -164,13 +182,14 @@ document.addEventListener('DOMContentLoaded', () => {
             setTimeout(() => {
                 showError(error.message);
                 loadingOverlay.style.display = 'none';
+                loadingOverlay.querySelector('p').textContent = 'Running Neural Network Analysis...';
                 previewSection.style.display = 'block';
                 previewSection.classList.remove('scanning');
                 analyzeBtn.disabled = false;
                 resetBtn.disabled = false;
-            }, 1000);
+            }, retryCount === 0 ? 1000 : 0);
         }
-    });
+    }
 
     function showError(message) {
         errorMessage.textContent = message;
