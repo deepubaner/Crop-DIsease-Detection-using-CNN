@@ -1,1 +1,4 @@
-model/crop_disease_model.h5 
+model/crop_disease_model.h5
+.venv/
+__pycache__/
+*.pyc
