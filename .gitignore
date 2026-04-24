@@ -2,3 +2,5 @@ model/crop_disease_model.h5
 .venv/
 __pycache__/
 *.pyc
+dataset/
+static/uploads/
