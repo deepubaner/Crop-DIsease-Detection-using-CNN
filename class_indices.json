@@ -2,101 +2,101 @@
     "0": {
         "plant": "Cotton",
         "disease": "Cotton Curl Virus",
-        "solution": "Uproot and destroy infected plants. Control the whitefly vector using systemic insecticides like Imidacloprid or Thiamethoxam. Use virus-resistant cotton varieties."
+        "solution": "Uproot and burn infected plants immediately to prevent spread. Control the whitefly vector by spraying Imidacloprid 17.8% SL (0.3ml/L) or Thiamethoxam 25% WG (0.2g/L). Use reflective mulches to repel whiteflies. Plant virus-resistant cotton varieties like CIM-496 or MNH-786. Avoid planting near infected fields."
     },
     "1": {
         "plant": "Cotton",
-        "disease": "Cotton healthy",
-        "solution": "Plant is healthy. Continue standard nutrient management (NPK), ensure proper spacing, and maintain regular scouting for pests."
+        "disease": "Healthy",
+        "solution": "Plant is healthy. Maintain regular scouting for pests. Apply balanced NPK fertilizer (120:60:60 kg/ha). Ensure proper plant spacing (75x30 cm) for airflow. Use drip irrigation to avoid waterlogging."
     },
     "2": {
         "plant": "Gram",
-        "disease": "Gram healthy",
-        "solution": "Plant is healthy. Maintain adequate soil moisture during the pod-filling stage. Prevent waterlogging."
+        "disease": "Healthy",
+        "solution": "Plant is healthy. Maintain adequate soil moisture especially during pod-filling stage. Apply Rhizobium inoculant before sowing. Avoid waterlogging. Use Chlorpyrifos 20% EC (2ml/L) as preventive spray against pod borers."
     },
     "3": {
         "plant": "Kinnow",
         "disease": "Kinnow Greening",
-        "solution": "Citrus greening has no cure. Immediately remove infected trees to prevent spread. Control the Asian citrus psyllid vector using Dimethoate or Imidacloprid."
+        "solution": "Citrus greening (HLB) has no cure. Immediately remove and burn all infected trees. Control the Asian citrus psyllid vector by spraying Dimethoate 30% EC (2ml/L) or Imidacloprid 17.8% SL (0.5ml/L) every 21 days. Use certified disease-free nursery plants. Apply micronutrient sprays (Zinc Sulfate 0.5% + Manganese Sulfate 0.3%) to slow symptom progression."
     },
     "4": {
         "plant": "Kinnow",
-        "disease": "Kinnow healthy",
-        "solution": "Plant is healthy. Apply regular micronutrient sprays (Zinc, Iron) and ensure proper irrigation scheduling."
+        "disease": "Healthy",
+        "solution": "Plant is healthy. Apply Zinc Sulfate (0.5%) and Iron Sulfate (0.3%) foliar sprays every 45 days. Maintain proper irrigation scheduling. Use Chlorpyrifos 20% EC as preventive insecticide against psyllids."
     },
     "5": {
         "plant": "Maize",
         "disease": "Maize Common Rust",
-        "solution": "Apply a fungicide such as Mancozeb or a Triazole (e.g., Propiconazole) at the first sign of pustules. Rotate crops to break the disease cycle."
+        "solution": "Apply Propiconazole 25% EC (Tilt) at 1ml/L or Mancozeb 75% WP at 2.5g/L at first sign of orange pustules. Repeat spray after 10-14 days. Avoid excess nitrogen fertilization. Plant rust-resistant hybrids like DKC-9144 or Pioneer 30V92. Practice crop rotation with non-host crops."
     },
     "6": {
         "plant": "Maize",
-        "disease": "Maize healthy",
-        "solution": "Plant is healthy. Provide adequate nitrogen side-dressing during the V6-V8 growth stages. Maintain weed control."
+        "disease": "Healthy",
+        "solution": "Plant is healthy. Apply nitrogen side-dressing (60 kg/ha urea) at V6-V8 growth stage. Maintain weed control using Atrazine 50% WP (1.5kg/ha) pre-emergence. Ensure proper drainage to prevent waterlogging."
     },
     "7": {
         "plant": "Mustard",
         "disease": "Mustard Alternaria Blight",
-        "solution": "Spray Mancozeb (0.2%) or Copper Oxychloride at 10-15 day intervals. Ensure early sowing and use certified, disease-free seeds."
+        "solution": "Spray Mancozeb 75% WP (2.5g/L) or Copper Oxychloride 50% WP (3g/L) at 10-15 day intervals starting from flowering. Use Iprodione 50% WP (1g/L) for severe infections. Sow early (October) to avoid peak disease period. Use certified disease-free seeds treated with Thiram 75% WS (3g/kg seed). Avoid overhead irrigation."
     },
     "8": {
         "plant": "Mustard",
-        "disease": "Mustard healthy",
-        "solution": "Plant is healthy. Apply a balanced dose of sulfur and phosphorus fertilizers for better pod formation and oil content."
+        "disease": "Healthy",
+        "solution": "Plant is healthy. Apply sulfur (40 kg/ha) and phosphorus (60 kg/ha) fertilizers for better pod formation. Use Quinalphos 25% EC (2ml/L) as preventive spray against aphids. Ensure proper row spacing (30 cm) for airflow."
     },
     "9": {
         "plant": "Potato",
         "disease": "Potato Late Blight",
-        "solution": "Critical: Apply protectant fungicides like Chlorothalonil or Mancozeb before infection. If infected, use curative systemic fungicides like Cymoxanil or Metalaxyl immediately."
+        "solution": "Apply Metalaxyl + Mancozeb (Ridomil Gold) 2.5g/L or Cymoxanil 8% + Mancozeb 64% WP (3g/L) immediately upon spotting water-soaked lesions. Spray Chlorothalonil 75% WP (2g/L) as protectant every 7 days in humid weather. Destroy infected haulms before harvest. Store tubers in cool dry conditions. Plant certified blight-free seed tubers."
     },
     "10": {
         "plant": "Potato",
-        "disease": "Potato healthy",
-        "solution": "Plant is healthy. Practice regular crop rotation, earth up the soil around the base, and use certified seed tubers."
+        "disease": "Healthy",
+        "solution": "Plant is healthy. Earth up soil around base at 30 days after planting. Apply Mancozeb 75% WP (2g/L) as preventive spray during humid weather. Use certified seed tubers. Practice 3-year crop rotation."
     },
     "11": {
         "plant": "Rice",
         "disease": "Rice Brown Spot",
-        "solution": "Improve soil fertility (especially Nitrogen and Potassium). Spray crops with Mancozeb + Tricyclazole or Propiconazole at booting."
+        "solution": "Spray Propiconazole 25% EC (1ml/L) or Mancozeb 75% WP + Tricyclazole 75% WP (2g/L each) at booting stage. Improve soil fertility with potassium (60 kg/ha MOP) and nitrogen management. Avoid water stress during tillering. Use resistant varieties like IR-64 or Swarna. Treat seeds with Carbendazim 50% WP (2g/kg) before sowing."
     },
     "12": {
         "plant": "Rice",
         "disease": "Rice Leaf Blast",
-        "solution": "Avoid excessive nitrogen application. Maintain a continuous flood in the paddy. Spray Tricyclazole or Isoprothiolane as soon as lesions appear."
+        "solution": "Spray Tricyclazole 75% WP (0.6g/L) or Isoprothiolane 40% EC (1.5ml/L) immediately upon spotting diamond-shaped lesions. Avoid excess nitrogen application. Maintain continuous flooding (5 cm) in paddy. Use blast-resistant varieties like Pusa Basmati-1 or IR-64. Treat seeds with Carbendazim 50% WP (2g/kg) before sowing."
     },
     "13": {
         "plant": "Rice",
-        "disease": "Rice healthy",
-        "solution": "Plant is healthy. Maintain 2-5 cm of standing water and apply timely splits of nitrogen fertilizer."
+        "disease": "Healthy",
+        "solution": "Plant is healthy. Maintain 2-5 cm standing water throughout vegetative stage. Apply nitrogen in splits (basal + tillering + panicle initiation). Use Chlorpyrifos 20% EC (2ml/L) as preventive spray against stem borers."
     },
     "14": {
         "plant": "Sugarcane",
         "disease": "Sugarcane Red Rot",
-        "solution": "Highly destructive. Burn the infected crop immediately. Do not ratoon the diseased crop. Disinfect harvesting tools. Plant resistant varieties."
+        "solution": "Highly destructive — act immediately. Burn the entire infected crop in the field. Do NOT ratoon the diseased crop. Disinfect harvesting tools with 0.1% Mercuric Chloride or 10% Bleach solution. Treat setts with Carbendazim 50% WP (1g/L) for 30 minutes before planting. Plant resistant varieties like CoJ-64 or CoS-8436. Avoid waterlogging by improving field drainage."
     },
     "15": {
         "plant": "Sugarcane",
-        "disease": "Sugarcane healthy",
-        "solution": "Plant is healthy. Ensure adequate earthing up to prevent lodging. Manage timely irrigation and weed control."
+        "disease": "Healthy",
+        "solution": "Plant is healthy. Earth up at 60 and 120 days after planting to prevent lodging. Apply Atrazine 50% WP (2kg/ha) for weed control. Use Chlorpyrifos 20% EC (4L/ha) as soil drench against early shoot borers."
     },
     "16": {
         "plant": "Tomato",
         "disease": "Tomato Early Blight",
-        "solution": "Remove lower infected leaves to improve airflow. Apply fungicides containing Chlorothalonil, Copper, or Mancozeb on a 7-14 day schedule."
+        "solution": "Remove and destroy all lower infected leaves immediately. Spray Chlorothalonil 75% WP (2g/L) or Mancozeb 75% WP (2.5g/L) on a 7-day schedule. For severe infection use Azoxystrobin 23% SC (1ml/L) or Difenoconazole 25% EC (0.5ml/L). Avoid overhead irrigation. Stake plants to keep foliage off ground. Rotate crops — avoid tomato in same field for 2 years."
     },
     "17": {
         "plant": "Tomato",
-        "disease": "Tomato healthy",
-        "solution": "Plant is healthy. Stake or trellis the plants to keep foliage off the ground and avoid overhead watering to prevent future fungal issues."
+        "disease": "Healthy",
+        "solution": "Plant is healthy. Stake or trellis plants to keep foliage off ground. Use drip irrigation to avoid wetting leaves. Apply Copper Oxychloride 50% WP (3g/L) as preventive spray every 15 days during humid weather."
     },
     "18": {
         "plant": "Wheat",
         "disease": "Wheat Yellow Rust",
-        "solution": "Spray Propiconazole (Tilt 25 EC) or Tebuconazole immediately upon spotting the first yellow stripes. Avoid excess nitrogen and late sowing."
+        "solution": "Spray Propiconazole 25% EC (Tilt) at 1ml/L or Tebuconazole 25.9% EC (1ml/L) immediately upon spotting first yellow stripes. Repeat after 15 days if disease persists. Avoid late sowing and excess nitrogen. Plant resistant varieties like HD-2967, PBW-550 or WH-1105. Monitor fields weekly during February-March (peak rust season)."
     },
     "19": {
         "plant": "Wheat",
-        "disease": "Wheat healthy",
-        "solution": "Plant is healthy. Ensure weed control (using appropriate herbicides if necessary) and provide adequate irrigation at the critical crown root initiation (CRI) stage."
+        "disease": "Healthy",
+        "solution": "Plant is healthy. Apply first irrigation at Crown Root Initiation (CRI) stage (21 days after sowing). Use recommended herbicides like Clodinafop 15% WP (400g/ha) for narrow-leaf weeds. Apply Propiconazole 25% EC (1ml/L) as preventive spray at flag leaf stage."
     }
 }
