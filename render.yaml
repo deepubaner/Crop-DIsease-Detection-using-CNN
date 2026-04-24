@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: crop-disease-detection
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app --bind 0.0.0.0:$PORT --timeout 120 --workers 1
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.10.13
+      - key: CUDA_VISIBLE_DEVICES
+        value: ""
+      - key: TF_CPP_MIN_LOG_LEVEL
+        value: "3"

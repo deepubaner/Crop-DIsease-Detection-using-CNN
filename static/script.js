@@ -113,7 +113,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 body: formData
             });
 
-            const data = await response.json();
+            let data;
+            const text = await response.text();
+            if (!text || text.trim() === '') {
+                throw new Error("Server is waking up, please try again in a few seconds.");
+            }
+            try {
+                data = JSON.parse(text);
+            } catch {
+                throw new Error("Server is starting up, please try again shortly.");
+            }
 
             if (!response.ok) {
                 throw new Error(data.error || "Server returned an error");
